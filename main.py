@@ -29,6 +29,11 @@ ENTRY = (
 
 
 def main() -> None:
+    # Gate self-check (revision pass 2): the sealed scorer only accepts
+    # UTF-8 text of 1-200 characters, and the judge brief asks for exactly
+    # one sentence — refuse to write anything that would fail either.
+    assert 1 <= len(ENTRY) <= 200, f"entry is {len(ENTRY)} chars"
+    assert ENTRY.count(".") == 1 and ENTRY.endswith("."), "must be one sentence"
     out_dir = "/output"
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
